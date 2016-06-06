@@ -82,7 +82,7 @@ module SimpleCalendar
               if o.kind_of?(Array)
                 o.insert(0, n)
               else
-                [n]
+                n.to_a
               end
             }
             end
@@ -92,7 +92,7 @@ module SimpleCalendar
               if o.kind_of?(Array)
                 o.insert(0, n)
               else
-                [n]
+                n.to_a
               end
             }
           end
