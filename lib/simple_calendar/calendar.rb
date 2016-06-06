@@ -80,9 +80,10 @@ module SimpleCalendar
               temp  = { date => event}
               scheduled.merge!(temp) { |k, o, n| 
               if o.kind_of?(Array)
-                o.insert(0, n)
+                o << n
               else
-                n.to_a
+                a = Array.new
+                a << n
               end
             }
             end
