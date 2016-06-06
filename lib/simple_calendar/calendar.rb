@@ -41,6 +41,7 @@ module SimpleCalendar
       td_class << "next-month"    if start_date.month != day.month && day > start_date
       td_class << "current-month" if start_date.month == day.month
       td_class << "has-events"    if sorted_events.fetch(day, []).any?
+      td_class << "has-events"    if has_continous_events(day)
 
       td_class
     end
@@ -55,19 +56,47 @@ module SimpleCalendar
 
     private
 
+      def has_continous_events(day)
+        for |event| in sorted_events do
+          if event.has_attribute?(end_attribute)
+             
+        if sorted_events.fetch(day, []).any? ||
+
+
       def partial_name
         self.class.name.underscore
       end
 
-      def attribute
-        options.fetch(:attribute, :start_time).to_sym
+      def start_attribute
+        options.fetch(:start_attribute, :start_time).to_sym
+      end
+
+      def end_attribute
+        options.fetch(:end_attribute, :end_time).to_sym
       end
 
       def sorted_events
-        events = options.fetch(:events, []).sort_by(&attribute)
+        events = options.fetch(:events, []).sort_by(&start_attribute)
 
-        scheduled = events.reject { |e| e.send(attribute).nil? }
-        scheduled.group_by { |e| e.send(attribute).to_date }
+        events_with_start_attribute = events.reject { |e| e.send(start_attribute).nil? }
+
+        scheduled = {}
+
+        for events_with_start_attribute do |event|
+          if event.has_attribute?(end_attribute)
+            for event.send(start_attribute).to_date..event.send(end_attribute).to_date do |date|
+              temp  = { date => event}
+              scheduled.merge!(temp) { |k, o, n| o.insert(0, n) }
+            end
+          else
+            temp = { event.send(start_attribute).to_date => event}
+            scheduled.merge!(temp) { |k, o, n| o.insert(0, n) }
+          end
+        end
+
+        #scheduled = events.reject { |e| e.send(start_attribute).nil? }
+        #scheduled.group_by { |e| e.send(start_attribute).to_date }
+        return scheduled
       end
 
       def start_date
