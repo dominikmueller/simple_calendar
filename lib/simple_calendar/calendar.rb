@@ -81,6 +81,7 @@ module SimpleCalendar
               temp  = { date => event}
               scheduled.merge!(temp) { |k, o, n| 
               if o.nil?
+                puts "o ist nil!"
                 o = Array.new
                 o << n
               else
