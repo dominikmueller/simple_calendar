@@ -78,7 +78,7 @@ module SimpleCalendar
           if event.has_attribute?(end_attribute)
             puts "Hat EndAttribute!"
             for date in event.send(start_attribute).to_date..event.send(end_attribute).to_date do
-              temp  = { date => event}
+              temp  = { date => [event]}
               scheduled.merge!(temp) { |k, o, n|
               puts "o inspiziert:" 
               puts o.inspect
