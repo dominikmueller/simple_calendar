@@ -100,7 +100,9 @@ module SimpleCalendar
 
         #scheduled = events.reject { |e| e.send(start_attribute).nil? }
         #scheduled.group_by { |e| e.send(start_attribute).to_date }
-        return scheduled
+        puts scheduled
+        puts scheduled.inspect
+        scheduled
       end
 
       def start_date
