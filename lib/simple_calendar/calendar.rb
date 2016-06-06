@@ -81,8 +81,8 @@ module SimpleCalendar
               temp  = { date => event}
               scheduled.merge!(temp) { |k, o, n| 
               if o.nil?
-                a = Array.new
-                a << n
+                o = Array.new
+                o << n
               else
                 o << n
               end
@@ -93,8 +93,8 @@ module SimpleCalendar
             temp = { event.send(start_attribute).to_date => event}
             scheduled.merge!(temp) { |k, o, n| 
               if o.nil?
-                a = Array.new
-                a << n
+                o = Array.new
+                o << n
               else
                 o << n
               end
