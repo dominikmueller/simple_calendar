@@ -41,7 +41,6 @@ module SimpleCalendar
       td_class << "next-month"    if start_date.month != day.month && day > start_date
       td_class << "current-month" if start_date.month == day.month
       td_class << "has-events"    if sorted_events.fetch(day, []).any?
-      td_class << "has-events"    if has_continous_events(day)
 
       td_class
     end
@@ -55,13 +54,6 @@ module SimpleCalendar
     end
 
     private
-
-      def has_continous_events(day)
-        for |event| in sorted_events do
-          if event.has_attribute?(end_attribute)
-             
-        if sorted_events.fetch(day, []).any? ||
-
 
       def partial_name
         self.class.name.underscore
@@ -82,15 +74,27 @@ module SimpleCalendar
 
         scheduled = {}
 
-        for events_with_start_attribute do |event|
+        for event in events_with_start_attribute
           if event.has_attribute?(end_attribute)
-            for event.send(start_attribute).to_date..event.send(end_attribute).to_date do |date|
+            for date in event.send(start_attribute).to_date..event.send(end_attribute).to_date do
               temp  = { date => event}
-              scheduled.merge!(temp) { |k, o, n| o.insert(0, n) }
+              scheduled.merge!(temp) { |k, o, n| 
+              if o.kind_of?(Array)
+                o.insert(0, n)
+              else
+                [n]
+              end
+            }
             end
           else
             temp = { event.send(start_attribute).to_date => event}
-            scheduled.merge!(temp) { |k, o, n| o.insert(0, n) }
+            scheduled.merge!(temp) { |k, o, n| 
+              if o.kind_of?(Array)
+                o.insert(0, n)
+              else
+                [n]
+              end
+            }
           end
         end
 
