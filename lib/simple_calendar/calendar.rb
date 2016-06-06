@@ -80,16 +80,9 @@ module SimpleCalendar
             for date in event.send(start_attribute).to_date..event.send(end_attribute).to_date do
               temp  = { date => event}
               scheduled.merge!(temp) { |k, o, n|
-              puts "O inspiziert:" 
+              puts "o inspiziert:" 
               puts o.inspect
-              if o.nil?
-                puts "o ist nil!"
-                o = Array.new
-                o << n
-              else
-                puts "Im ELSE part!"
-                o << n
-              end
+              (o ||= []) << n
             }
             end
           else
