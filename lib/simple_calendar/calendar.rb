@@ -76,34 +76,18 @@ module SimpleCalendar
 
         for event in events_with_start_attribute
           if event.has_attribute?(end_attribute)
-            puts "Hat EndAttribute!"
             for date in event.send(start_attribute).to_date..event.send(end_attribute).to_date do
-              temp  = { date => (Array.new << event)}
-              puts "Temp inspected:"
-              puts temp.inspect
-              scheduled.merge!(temp) { |k, o, n|
-              puts "o inspiziert:" 
-              puts o.inspect
-              (o ||= []) << n
-            }
+              temp  = { date => (Array.new << event) }
+              scheduled.merge!(temp) { |k, o, n| o + n }
             end
           else
-            puts "Hat kein EndAttribute"
-            temp = { event.send(start_attribute).to_date => event}
-            scheduled.merge!(temp) { |k, o, n| 
-              if o.nil?
-                o = Array.new
-                o << n
-              else
-                o << n
-              end
-            }
+            temp = { event.send(start_attribute).to_date => (Array.new << event) }
+            scheduled.merge!(temp) { |k, o, n| o + n }
           end
         end
 
         #scheduled = events.reject { |e| e.send(start_attribute).nil? }
         #scheduled.group_by { |e| e.send(start_attribute).to_date }
-        puts scheduled
         puts scheduled.inspect
         scheduled
       end
