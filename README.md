@@ -79,20 +79,20 @@ model called Meeting, but you can add this to any model or Ruby object.
 Here's an example model:
 
 ```bash
-rails g scaffold Meeting name start_time:datetime
+rails g scaffold Meeting name start_time:datetime end_time:datetime
 ```
 
-By default it uses `start_time` as the attribute name.
+By default it uses `start_time` as the start attribute and `end_time` as the end attribute name.
 
-**If you'd like to use another attribute other than start_time, just
-pass it in as the `attribute` option**
+**If you'd like to use another attribute other than start_time or end_time, just
+pass it in as the `start_attribute` or `end_attribute` option.**
 
 ```erb
 <%= month_calendar(attribute: :starts_at) do |date| %>
   <%= date %>
 <% end %>
 ```
-**If you already have a model with a start time attribute called something other than `start_time` or accesses it through a relationship, you can alias the attribute by defining a `start_time` method in the my_model.rb file and not have to specify it separately as in the above example**
+**If you already have a model with a start(end) time attribute called something other than `start_time`(`end_time`) or accesses it through a relationship, you can alias the attribute by defining a `start_time`(`end_time`) method in the my_model.rb file and not have to specify it separately as in the above example**
 ```ruby
 class MyModel
     ## Other code related to your model lives here
