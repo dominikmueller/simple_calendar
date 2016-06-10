@@ -85,10 +85,6 @@ module SimpleCalendar
             scheduled.merge!(temp) { |k, o, n| o + n }
           end
         end
-
-        #scheduled = events.reject { |e| e.send(start_attribute).nil? }
-        #scheduled.group_by { |e| e.send(start_attribute).to_date }
-        puts scheduled.inspect
         scheduled
       end
 
